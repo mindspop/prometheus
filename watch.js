@@ -5,7 +5,8 @@ const gutil = require('gulp-util')
 const options = require('./config').base
 const render = require('./render')
 
-gulp.watch(options.apiFiles)
+module.exports = function watch(done) {
+  gulp.watch(options.apiFiles)
   .on('change', function(path, stats) {
     gutil.log(`${path} changed`)
     render(path)()
@@ -14,3 +15,6 @@ gulp.watch(options.apiFiles)
     gutil.log(`${path} added`)
     render(path)()
   })
+
+  done()
+}

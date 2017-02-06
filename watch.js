@@ -2,7 +2,7 @@ const gulp = require('gulp')
 const aglio = require('gulp-aglio')
 const gutil = require('gulp-util')
 
-const options = require('./config').base
+const options = require('./config').get('base')
 const render = require('./render')
 
 module.exports = function watch(done) {

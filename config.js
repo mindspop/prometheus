@@ -1,28 +1,32 @@
-const base = {
-  htmlFiles: 'html/**/*.html',
-  apiFiles: 'api/**/*.md',
-  htmlPath: 'html/',
-  apiPath: 'api/'
+const fs = require('fs')
+const path = require('path')
+
+const glob = require('glob')
+const config = require('config')
+const extNames = [
+  'js', 'json', 'json5', 'hjson', 'toml',
+  'coffee', 'iced', 'yaml', 'yml', 'cson',
+  'properties', 'xml',
+]
+
+let custom = {}
+
+const configDir = path.resolve(process.cwd(), 'config_test.*')
+const files = glob.sync(configDir)
+
+const file = files[0]
+
+if (files.length > 1) {
+  console.log(`存在多份 Config 文件，当前只处理 ${file} 配置，忽略其它文件`)
 }
 
-// md => html 渲染配置
-const renderOptions = {
-  base: base.apiPath,
-  dest: base.htmlPath, // 渲染后文件存放目
-  themeTemplate: 'default',
-  // ... 其它配置参考
-  // https://github.com/danielgtaylor/aglio#agliorender-blueprint-options-callback
+if (file) {
+  if (extNames.includes(path.extname(file)) {
+    custom = config.util.parseFile(file)
+    config.util.extendDeep(config, custom)
+  } else {
+    console.log(`config 格式只支持 ${extNames.join(', ')}`)
+  }
 }
 
-// Mock 配置
-const drakovOptions = {
-  serverPort: 8000, // server 地址 localhost:8000
-  watch: true,
-  sourceFiles: base.apiFiles,
-  staticPaths: base.htmlPath,
-  // ... 其它配置参考 https://github.com/Aconex/drakov
-}
-
-module.exports.base = base
-module.exports.renderOptions = renderOptions
-module.exports.drakovOptions = drakovOptions
+module.exports = config

@@ -1,7 +1,7 @@
 const gulp = require('gulp')
 const aglio = require('gulp-aglio')
 
-const options = require('./config').renderOptions
+const options = require('./config').get('renderOptions')
 
 function render(pattern) {
   return function renderAPI(done) {

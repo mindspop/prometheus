@@ -3,7 +3,7 @@ const gulp = require('gulp')
 const render = require('./render')
 const mock = require('./mock')
 const clean = require('./clean')
-const options = require('./config').base
+const options = require('./config').get('base')
 const watch =  require('./watch')
 
 gulp.task('default', gulp.parallel(mock, render(options.apiFiles), watch))
